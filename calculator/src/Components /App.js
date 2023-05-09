@@ -1,31 +1,48 @@
+import React, { useState } from 'react'
+import Keypad from './Keypad'
 
-import { useState } from 'react';
-import Keypad from './Keypad';
+const Calculator = () => {
+    const [result, setResult] = useState('')
 
-function App() {
-  const [input, setInput] = useState('');
-  const handleClick = (value) => {
-    setInput(input + value);
-  };
+    const handleClick = (value) => {
+        setResult(result + value)
+    }
 
-  const handleEqual = () => {
-    setInput(eval(input).toString());
-  };
+    const handleClear = () => {
+        setResult('')
+    }
 
-  const handleClear = () => {
-    setInput("");
-  };
-  return (
-    <div className="App">
-      <div className="calculator">
-        <input className="display" type="text" value={input} readOnly />
-        <Keypad 
-          handleClear={handleClear} 
-          handleClick={handleClick} 
-          handleEqual={handleEqual} />
-      </div>
-    </div>
-  );
+    const handleEqual = () => {
+        setResult(eval(result))
+    }
+
+    const handlePercentage = () => {
+        setResult(eval(result)/100)
+    }
+
+    const handleDecimal = () => {
+        if (result.indexOf('.') === -1) {
+            setResult(result + '.')
+        }
+    }
+
+    const handleDelete = () => {
+        setResult(result.slice(0, -1))
+    }
+
+    return (
+        <div className="calculator">
+            <div className="display">{result}</div>
+            <Keypad 
+                handleClick={handleClick}
+                handleClear={handleClear}
+                handleEqual={handleEqual}
+                handlePercentage={handlePercentage}
+                handleDecimal={handleDecimal}
+                handleDelete={handleDelete}
+            />
+        </div>
+    )
 }
 
-export default App;
+export default Calculator
